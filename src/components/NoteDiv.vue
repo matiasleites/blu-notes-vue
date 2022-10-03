@@ -3,6 +3,7 @@ import { firestore } from "@/services/firebase";
 import { addDoc, collection, doc, updateDoc } from "@firebase/firestore";
 import { ref, defineProps, onMounted } from "vue";
 import { useStore } from "vuex";
+import IconTrash from "./icons/IconTrash.vue";
 
 const store = useStore();
 
@@ -20,6 +21,8 @@ const props = defineProps({
 
 const loading = ref(false);
 const customColor = ref("yellow");
+const customDelete = ref("");
+const myStatus = ref(1);
 const myText = ref("Example Text");
 const myUser = ref({
   loggedIn: false,
@@ -33,6 +36,7 @@ onMounted(() => {
   const myNote = props.note as NoteType;
   if (myNote && myNote.color) customColor.value = myNote.color;
   if (myNote && myNote.text) myText.value = myNote.text;
+  if (myNote && myNote.text) myStatus.value = myNote.status;
   if (!myId.value || myId.value.length < 1) {
     loading.value = true;
     updateNote(myText.value).then(() => {
@@ -40,6 +44,35 @@ onMounted(() => {
     });
   }
 });
+
+function clickDelete() {
+  if (customDelete.value == "") {
+    customDelete.value = "red";
+  } else {
+    console.log("now delete");
+    closeNote();
+  }
+}
+
+async function closeNote() {
+  let newStatus = 0;
+  if (myStatus.value == 0) {
+    newStatus == 1;
+  }
+
+  const myDoc = doc(
+    firestore,
+    `/notes/${myUser.value.data.uid}/notes/${myId.value}`
+  );
+
+  if (myId.value) {
+    await updateDoc(myDoc, { status: newStatus }).then(() => {
+      return true;
+    });
+    myStatus.value = 0;
+    return true;
+  }
+}
 
 let timer: number | undefined;
 
@@ -111,6 +144,7 @@ function changeColor(type: number) {
   <div class="note" v-bind:class="customColor">
     <div class="note-text">
       <textarea
+        :readonly="myStatus == 0"
         :value="myText"
         @input="
           (event) => {
@@ -119,7 +153,10 @@ function changeColor(type: number) {
         "
       ></textarea>
     </div>
-    <div class="color-toolbar">
+    <div v-if="myStatus == 1" class="color-toolbar">
+      <button class="icon" v-bind:class="customDelete" @click="clickDelete">
+        <IconTrash />
+      </button>
       <button class="color-button yellow" @click="changeColor(1)"></button>
       <button class="color-button salmon" @click="changeColor(2)"></button>
       <button class="color-button deepsky" @click="changeColor(3)"></button>
@@ -128,6 +165,9 @@ function changeColor(type: number) {
   </div>
 </template>
 <style>
+.red {
+  color: brown !important;
+}
 .note {
   border-radius: 3px;
   margin: 10px 15px;
@@ -180,8 +220,25 @@ function changeColor(type: number) {
 }
 
 .color-toolbar button {
-  height: 15px !important;
+  height: 20px !important;
   padding: 0px;
+}
+
+.icon {
+  background-color: transparent;
+  flex: 1;
+  margin: 2px 2px;
+  border-radius: 2px;
+  color: black;
+}
+
+.icon:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: black;
+}
+
+.icon svg {
+  width: 13px !important;
 }
 
 .color-button {

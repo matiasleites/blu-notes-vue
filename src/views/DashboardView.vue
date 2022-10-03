@@ -2,8 +2,8 @@
   <div class="dash">
     <div v-if="myUser.loggedIn" class="top-bar">
       <p>{{ myUser.data.displayName }}</p>
-      <button class="logout-btn" @click.prevent="signOut">Sair</button>
-      <button class="new-note-btn" @click.prevent="addNote">+ Nova Nota</button>
+      <button class="logout-btn" @click="signOut">Sair</button>
+      <button class="new-note-btn" @click="addNote">+ Nova Nota</button>
     </div>
     <div class="notes">
       <NoteDiv
@@ -47,10 +47,9 @@ onMounted(() => {
 });
 
 function addNote() {
-  const myNotes = notes.value;
   const myDoc = { color: "yellow", id: "", text: "Nova nota", status: 1 };
-  myNotes.unshift(myDoc);
-  notes.value = myNotes;
+  notes.value.push(myDoc);
+  console.error(notes.value);
 }
 
 async function getNotes(status: number) {

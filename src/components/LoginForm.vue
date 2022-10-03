@@ -121,6 +121,10 @@ async function tryLoggin() {
   padding-left: 2px;
 }
 
+.actions button {
+  margin-top: 10px;
+}
+
 @media (max-width: 500px) {
   .login-form {
     padding: 5px 0px;

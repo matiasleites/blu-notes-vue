@@ -13,7 +13,7 @@ import HomeActions from "./HomeActions.vue";
           height="125"
         />
       </div>
-      <h2>BluTasks</h2>
+      <h2>BluNotes</h2>
     </div>
     <div class="wrapper">
       <HomeActions />
@@ -54,6 +54,12 @@ nav {
   margin-top: 5px;
 }
 nav a {
+  color: var(--primary);
+  margin-right: 9px;
+}
+
+nav a:hover {
+  color: var(--primaryDark);
   margin-right: 9px;
 }
 </style>

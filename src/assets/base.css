@@ -1,11 +1,11 @@
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
-  --primary: #4CC9DE;
-  --primaryDark: #167687;
+  --primary: #167687;
+  --primaryDark: #4CC9DE;
   --secondary:#798185;
   --alternative: #002231;
   --divisor: #011D2E;
-  --back: #6E7E85;
+  --back: #002231;
   --error: rgb(253, 141, 159);
 }
 

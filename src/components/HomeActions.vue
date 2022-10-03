@@ -2,7 +2,7 @@
 
 <template>
   <div class="greetings">
-    <h3>Gerencie suas tarefas diarias com o sistema BluTasks.</h3>
+    <h3>Gerencie suas tarefas diarias com o sistema BluNotes.</h3>
     <h3>Teste gratis, faça login ou cadastre-se.</h3>
   </div>
 </template>
