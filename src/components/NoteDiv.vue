@@ -74,10 +74,10 @@ async function closeNote() {
   }
 }
 
-let timer: number | undefined;
+let timer: null | number | ReturnType<typeof setTimeout> = null;
 
 async function manageUpdate(info: string) {
-  clearTimeout(timer);
+  if (timer) clearTimeout(timer);
   timer = setTimeout(() => {
     updateNote(info);
   }, 1000);
