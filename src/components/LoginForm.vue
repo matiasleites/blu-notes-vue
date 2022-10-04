@@ -21,6 +21,7 @@
           <p v-if="loading">Carregando</p>
           <p v-else>Login</p>
         </button>
+        <a href="/register">Cadastro</a>
       </div>
     </form>
   </div>
@@ -123,6 +124,10 @@ async function tryLoggin() {
 
 .actions button {
   margin-top: 10px;
+}
+
+.actions a {
+  margin-left: 20px;
 }
 
 @media (max-width: 500px) {

@@ -46,8 +46,9 @@
       <div class="actions">
         <button type="submit" :disabled="loading">
           <p v-if="loading">Carregando</p>
-          <p v-else>Cadastro</p>
+          <p v-else>Cadastre-se</p>
         </button>
+        <a href="/">Login</a>
       </div>
     </form>
   </div>
@@ -161,6 +162,10 @@ async function tryRegister() {
 .actions {
   margin-top: 2px;
   padding-left: 2px;
+}
+
+.actions a {
+  margin-left: 20px;
 }
 
 @media (max-width: 650px) {
