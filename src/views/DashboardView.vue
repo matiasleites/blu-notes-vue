@@ -111,7 +111,10 @@ async function getNotes(status: number) {
 
 .dash {
   width: 100vw;
-  padding: 20px;
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 50px;
   left: 0px;
   top: 0px;
   position: fixed;
@@ -126,6 +129,20 @@ async function getNotes(status: number) {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: auto;
+}
+
+@media (max-width: 3000px) {
+  .notes {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
+
+@media (max-width: 2500px) {
+  .notes {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+  }
 }
 
 @media (max-width: 1600px) {

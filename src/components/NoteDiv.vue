@@ -184,22 +184,6 @@ function changeColor(type: number) {
   padding: 3px 10px;
 }
 
-.note-text::after {
-  pointer-events: none;
-  content: "↓";
-  padding: 0px;
-  font-size: 10px;
-  position: absolute;
-  height: 15px;
-  width: 10px;
-  text-align: center;
-  bottom: 5px;
-  right: 10px;
-  z-index: 2;
-  color: var(--primaryDark);
-  background-color: var(--alternative) !important;
-}
-
 .note-text textarea {
   color: inherit;
   width: 100%;
