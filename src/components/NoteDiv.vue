@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { firestore } from "@/services/firebase";
 import { addDoc, collection, doc, updateDoc } from "@firebase/firestore";
-import { ref, defineProps, onMounted } from "vue";
+import { ref, defineProps, onMounted, onUpdated } from "vue";
 import { useStore } from "vuex";
 import IconTrash from "./icons/IconTrash.vue";
 
@@ -12,6 +12,7 @@ type NoteType = {
   text: string;
   color: string;
   status: number;
+  folder: string;
 };
 
 const props = defineProps({
@@ -24,32 +25,41 @@ const customColor = ref("yellow");
 const customDelete = ref("");
 const myStatus = ref(1);
 const myText = ref("Example Text");
+const myFolder = ref("");
 const myUser = ref({
   loggedIn: false,
-  data: { displayName: "", uid: "", email: "" },
+  data: { displayName: "", uid: "", email: "", folder: "" },
 });
 
 const myId = ref(props.idNote);
 
 onMounted(() => {
+  updateInfo();
+});
+
+onUpdated(() => {
+  updateInfo();
+});
+
+function updateInfo() {
   myUser.value = store.getters.user;
   const myNote = props.note as NoteType;
   if (myNote && myNote.color) customColor.value = myNote.color;
   if (myNote && myNote.text) myText.value = myNote.text;
-  if (myNote && myNote.text) myStatus.value = myNote.status;
+  if (myNote && myNote.status) myStatus.value = myNote.status;
+  if (myNote && myNote.folder) myFolder.value = myNote.folder;
   if (!myId.value || myId.value.length < 1) {
     loading.value = true;
     updateNote(myText.value).then(() => {
       loading.value = false;
     });
   }
-});
+}
 
 function clickDelete() {
   if (customDelete.value == "") {
     customDelete.value = "red";
   } else {
-    console.log("now delete");
     closeNote();
   }
 }
@@ -85,7 +95,6 @@ async function manageUpdate(info: string) {
 
 async function updateNote(info: string) {
   if (!myUser.value.loggedIn) {
-    console.log(myUser.value);
     return false;
   }
   if (myId.value) {
@@ -94,11 +103,13 @@ async function updateNote(info: string) {
       `/notes/${myUser.value.data.uid}/notes/${myId.value}`
     );
 
-    await updateDoc(myDoc, { text: info, color: customColor.value }).then(
-      () => {
-        return true;
-      }
-    );
+    await updateDoc(myDoc, {
+      text: info,
+      color: customColor.value,
+      folder: myFolder.value,
+    }).then(() => {
+      return true;
+    });
     myText.value = info;
     return true;
   } else {
@@ -178,6 +189,7 @@ function changeColor(type: number) {
   min-height: 250px;
   background-color: khaki;
   position: relative;
+  transition: 1s;
 }
 
 .note-text {

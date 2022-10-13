@@ -92,3 +92,8 @@ a{
 a:hover{
   color: var(--primary);
 }
+
+.green-btn {
+  background-color: lightgreen !important;
+  color: black !important;
+}
