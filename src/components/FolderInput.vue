@@ -23,17 +23,18 @@ const myUser = ref({
 });
 
 onUpdated(() => {
+  myFolder.value = props.folder as FolderType;
   updateValues();
 });
 
 onMounted(() => {
+  myUser.value = store.getters.user;
+  myFolder.value = props.folder as FolderType;
+  if (myFolder.value && myFolder.value.name) myText.value = myFolder.value.name;
   updateValues();
 });
 
 function updateValues() {
-  myUser.value = store.getters.user;
-  myFolder.value = props.folder as FolderType;
-  if (myFolder.value && myFolder.value.name) myText.value = myFolder.value.name;
   if (props.selected) selected.value = props.selected;
   if (props.selected == props.folder?.id) {
     customColor.value = "green-btn";
@@ -47,6 +48,7 @@ let timer: null | number | ReturnType<typeof setTimeout> = null;
 async function manageUpdate(info: string) {
   if (timer) clearTimeout(timer);
   timer = setTimeout(() => {
+    myText.value = info;
     updateFolder(info);
   }, 1000);
 }

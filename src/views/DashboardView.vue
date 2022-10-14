@@ -2,16 +2,17 @@
   <div class="dash">
     <div v-if="myUser.loggedIn" class="top-bar">
       <button class="new-note-btn" @click="addNote">Criar Nota</button>
+      <button class="new-folder-btn" @click="createFolder">Criar Pasta</button>
       <button class="logout-btn" @click="signOut">Sair</button>
       <p>{{ myUser.data.displayName }}</p>
     </div>
+    <hr />
     <div class="folders-bar">
-      <button class="new-folder-btn" @click="createFolder">Criar Pasta</button>
       <button
         v-bind:class="{ 'green-btn': folder == '' }"
         @click="setFolder('')"
       >
-        Sem pasta
+        Pasta principal
       </button>
       <FolderInput
         type="text"
@@ -173,13 +174,24 @@ async function getNotes(status: number) {
   });
   notes.value = myNotes;
   originalNotes.value = myNotes;
-  filterFolder();
   loading.value = false;
+  filterFolder();
   return true;
 }
 
 function setFolder(newFolder: string) {
+  const emptyNotes: {
+    color: any;
+    id: string;
+    text: any;
+    status: number;
+    folder: string;
+  }[] = [];
+
+  notes.value = emptyNotes;
+
   folder.value = newFolder;
+  console.log("SelectedFolder: " + newFolder);
   getNotes(1);
 }
 
@@ -192,6 +204,7 @@ function filterFolder() {
     folder: string;
   }[] = [];
   if (folder.value.length > 0) {
+    console.log("filter: " + folder.value);
     filterNotes = originalNotes.value.filter((myNote) => {
       return myNote.folder == folder.value;
     });
@@ -201,6 +214,7 @@ function filterFolder() {
     });
   }
   notes.value = filterNotes;
+  console.error(filterNotes);
 }
 </script>
 
@@ -208,7 +222,7 @@ function filterFolder() {
 .logout-btn {
   background-color: var(--secondary);
   margin: auto;
-  right: 5px;
+  right: 0px;
 }
 
 .logout-btn:hover {
@@ -218,7 +232,7 @@ function filterFolder() {
 
 .new-note-btn {
   background-color: rgb(91, 150, 91);
-  color: black;
+  color: white;
 }
 
 .new-note-btn:hover {
@@ -252,10 +266,11 @@ function filterFolder() {
 }
 
 .folders-bar button,
-inputs {
+input {
   min-width: 199px;
   color: #000;
   background-color: darkkhaki;
+  padding: 5px 15px !important;
 }
 
 .folders-bar button:hover {

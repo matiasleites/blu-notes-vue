@@ -34,14 +34,6 @@ const myUser = ref({
 const myId = ref(props.idNote);
 
 onMounted(() => {
-  updateInfo();
-});
-
-onUpdated(() => {
-  updateInfo();
-});
-
-function updateInfo() {
   myUser.value = store.getters.user;
   const myNote = props.note as NoteType;
   if (myNote && myNote.color) customColor.value = myNote.color;
@@ -54,7 +46,12 @@ function updateInfo() {
       loading.value = false;
     });
   }
-}
+});
+
+onUpdated(() => {
+  const myNote = props.note as NoteType;
+  if (myNote && myNote.folder) myFolder.value = myNote.folder;
+});
 
 function clickDelete() {
   if (customDelete.value == "") {
@@ -89,6 +86,7 @@ let timer: null | number | ReturnType<typeof setTimeout> = null;
 async function manageUpdate(info: string) {
   if (timer) clearTimeout(timer);
   timer = setTimeout(() => {
+    myText.value = info;
     updateNote(info);
   }, 1000);
 }

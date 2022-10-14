@@ -15,6 +15,7 @@
     --primary: #167687;
     --primaryDark: #4CC9DE;
     --secondary:#798185;
+    --secondaryAplha: rgba(121, 129, 133, 0.5);
     --alternative: #002231;
     --divisor: #011D2E;
     --back: #002231;
@@ -96,4 +97,13 @@ a:hover{
 .green-btn {
   background-color: lightgreen !important;
   color: black !important;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  background-color: var(--secondaryAplha);
 }
